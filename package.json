@@ -1,0 +1,55 @@
+{
+  "name": "job-feed-app",
+  "version": "1.0.0",
+  "description": "A simple Electron app to generate job feed JSON files",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "clean": "rimraf out/",
+    "package": "npm run clean && electron-forge package",
+    "make": "npm run clean && electron-forge make"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "electron": "^30.0.9",
+    "rimraf": "^5.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "electron-squirrel-startup": "^1.0.1"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "arch": "universal"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Job Feed Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+        .link-container {
+            margin-top: 10px;
+        }
+        .link-container a {
+            color: #007bff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+        .copy-button {
+            padding: 10px;
+            font-size: 16px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .copy-button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Job Feed Generator</h1>
+        <form id="feed-form">
+            <label for="numJobs">Number of Jobs:</label>
+            <input type="number" id="numJobs" name="numJobs" required>
+            <label for="submitterId">Submitter ID:</label>
+            <input type="text" id="submitterId" name="submitterId" required>
+            <label for="companyUid">Company UID:</label>
+            <input type="text" id="companyUid" name="companyUid" required>
+            <button type="submit">Generate Feed</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>
