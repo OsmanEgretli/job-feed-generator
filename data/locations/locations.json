@@ -1,0 +1,49 @@
+{
+  "locations": [
+    {
+      "address": ["Hansestr. 1"],
+      "city": ["Stuttgart"],
+      "country": ["Germany"],
+      "countryCode": ["DE"],
+      "latitude": [48.775846],
+      "longitude": [9.182932],
+      "zipCode": ["70173"]
+    },
+    {
+      "address": ["Alexanderplatz"],
+      "city": ["Berlin"],
+      "country": ["Germany"],
+      "countryCode": ["DE"],
+      "latitude": [52.520008],
+      "longitude": [13.404954],
+      "zipCode": ["10178"]
+    },
+    {
+      "address": ["Marienplatz"],
+      "city": ["Munich"],
+      "country": ["Germany"],
+      "countryCode": ["DE"],
+      "latitude": [48.137154],
+      "longitude": [11.576124],
+      "zipCode": ["80331"]
+    },
+    {
+      "address": ["Rathausmarkt"],
+      "city": ["Hamburg"],
+      "country": ["Germany"],
+      "countryCode": ["DE"],
+      "latitude": [53.551086],
+      "longitude": [9.993682],
+      "zipCode": ["20095"]
+    },
+    {
+      "address": ["Römerberg"],
+      "city": ["Frankfurt"],
+      "country": ["Germany"],
+      "countryCode": ["DE"],
+      "latitude": [50.110924],
+      "longitude": [8.682127],
+      "zipCode": ["60311"]
+    }
+  ]
+} 

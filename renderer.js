@@ -3,10 +3,30 @@ const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+// Load locations data
+const locationsPath = path.join(__dirname, 'data/locations/locations.json');
+const locationsData = JSON.parse(fs.readFileSync(locationsPath, 'utf8'));
+
+let GITHUB_TOKEN = null;
+
+// Request the GitHub token from the main process
+ipcRenderer.invoke('get-github-token').then(token => {
+    GITHUB_TOKEN = token;
+    console.log('GitHub Token from renderer process:', GITHUB_TOKEN); // Log the token for debugging
+}).catch(err => {
+    console.error('Failed to get GitHub token:', err);
+});
 
 document.getElementById('feed-form').addEventListener('submit', async (event) => {
     event.preventDefault();
+
+    if (!GITHUB_TOKEN) {
+        console.error('GitHub token not found');
+        document.getElementById('result').innerHTML = `
+            <p>Error: GitHub token not found</p>
+        `;
+        return;
+    }
 
     const numJobs = document.getElementById('numJobs').value;
     const submitterId = document.getElementById('submitterId').value;
@@ -16,8 +36,29 @@ document.getElementById('feed-form').addEventListener('submit', async (event) =>
     const filePath = path.join(__dirname, 'jobFeed.json');
 
     try {
-        const rawUrl = await createGist(filePath);
-        console.log('Gist created at:', rawUrl);
+        const content = fs.readFileSync(filePath, 'utf8');
+        
+        const response = await axios.post(
+            'https://api.github.com/gists',
+            {
+                files: {
+                    'jobFeed.json': {
+                        content: content
+                    }
+                },
+                public: true,
+                description: 'Generated job feed'
+            },
+            {
+                headers: {
+                    Authorization: `token ${GITHUB_TOKEN}`
+                }
+            }
+        );
+
+        const gistId = response.data.id;
+        const rawUrl = `https://gist.githubusercontent.com/OsmanEgretli/${gistId}/raw/jobFeed.json`;
+        
         document.getElementById('result').innerHTML = `
             <div class="link-container">
                 <p>Link created at:</p>
@@ -33,40 +74,8 @@ document.getElementById('feed-form').addEventListener('submit', async (event) =>
     }
 });
 
-async function createGist(filePath) {
-    const content = fs.readFileSync(filePath, 'utf8');
-
-    const response = await axios.post(
-        'https://api.github.com/gists',
-        {
-            files: {
-                'jobFeed.json': {
-                    content: content
-                }
-            },
-            public: true,
-            description: 'Generated job feed'
-        },
-        {
-            headers: {
-                Authorization: `token ${GITHUB_TOKEN}`
-            }
-        }
-    );
-
-    // Construct a stable URL manually
-    const gistId = response.data.id;
-    const rawUrl = `https://gist.githubusercontent.com/OsmanEgretli/${gistId}/raw/jobFeed.json`;
-
-    return rawUrl;
-}
-
 function copyToClipboard(text) {
-    const input = document.createElement('input');
-    input.setAttribute('value', text);
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
-    alert('Link copied to clipboard');
+    navigator.clipboard.writeText(text)
+        .then(() => alert('Link copied to clipboard'))
+        .catch(err => console.error('Failed to copy:', err));
 }

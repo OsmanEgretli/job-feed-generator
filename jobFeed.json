@@ -7,7 +7,7 @@
     },
     "autoRepost": "TRUE",
     "companyName": "Bartels-Langness Handelsgesellschaft mbH & Co. KG",
-    "companyUid": "3",
+    "companyUid": "1",
     "contactEmail": "osman@heyjobs.de",
     "description": "<h4>Wissenswertes</h4> <ul> <li>Ausbildungsstart: 1. August</li> <li>Ausbildungsart: Duale Ausbildung</li> <li>Ausbildungsdauer: 2-3 Jahre</li> <li>Schulabschluss: Mittlerer Schulabschluss</li> <li>36 Werktage Urlaub im Jahr</li> </ul> <p>Gehalt:</p> <ul> <li>1. Lehrjahr: 1.000€</li> <li>2. Lehrjahr: 1.100€</li> <li>3. Lehrjahr: 1.210€</li> </ul> <h4>Was Dich bei uns erwartet</h4> <ul> <li>Ein faires Gehalt</li> <li>Persönliche Betreuung während der gesamten Ausbildung</li> <li>Spannende Azubiprojekte</li> <li>Übernahme bei guter Leistung</li> <li>Arbeiten in einer krisensicheren Branche</li> </ul> <h4>Deine Aufgaben</h4> <p>Du führst Beratungsgespräche mit Kundinnen und Kunden, verkaufst Ware und bearbeitest Reklamationen. Außerdem planst Du den Einkauf, bestellst Ware und nimmst Lieferungen entgegen. Anschließend prüfst Du die Qualität der gelieferten Ware und sorgst für eine fachgerechte Lagerung. Du zeichnest die Ware aus und hilfst beim Auffüllen der Verkaufsregale und Verkaufstheken, sowie bei der Gestaltung der Verkaufsräume. Auch bei der Planung und Umsetzung von werbe- und verkaufsfördernden Maßnahmen wirkst Du mit. Dazu beobachtest Du den Markt und unterstützt bei der Sortimentsgestaltung.</p> <h4>Während der Ausbildung lernst Du...</h4> <ul> <li>… die verschiedenen Abteilungen (z.B. Drogerie, Molkereiprodukte, Obst&Gemüse, Nonfood, u.v.m) in unserem Warenhaus kennen</li> <li>… wie man Personaleinsätze korrekt plant</li> <li>… wie die Kalkulation von Verkaufspreisen funktioniert</li> </ul> <h4>Das bringst Du mit</h4> <ul> <li>Du hast Freude an Kundengesprächen</li> <li>Du bist verantwortungsbewusst und Dein Team kann sich auf Dich verlassen</li> <li>Du bist offen, freundlich und ein respektvoller Umgang ist Dir wichtig</li> </ul> <h4>Davon profitierst Du</h4> <ul> <li>Weihnachts- und Urlaubsgeld</li> <li>Azubi-Start Event</li> <li>Persönliche Betreuung und Unterstützung von Ausbildung bis zur Prüfung</li> <li>Innerbetriebliche Schulungen</li> <li>Prämien für gute und sehr gute Prüfungsleistungen</li> </ul>",
     "employmentType": "apprenticeship",
@@ -25,16 +25,16 @@
     "jobIndustry": [],
     "jobIndustryId": [],
     "jobPositionId": [],
-    "jobReference": "27297",
+    "jobReference": "5555",
     "jobType": "other",
     "jobTypeCategory": [],
     "linkOutType": [],
     "location": {
       "address": [
-        "Hansestr. 1"
+        "Alexanderplatz"
       ],
       "city": [
-        "Hamburg"
+        "Berlin"
       ],
       "country": [
         "Germany"
@@ -45,7 +45,7 @@
       "latitude": [],
       "longitude": [],
       "zipCode": [
-        "33689"
+        "10178"
       ]
     },
     "marketingBudget": [],
@@ -56,8 +56,8 @@
     "salaryRangeMax": "3000000",
     "salaryRangeMin": "110000",
     "shortTitle": [],
-    "submitterId": "2",
-    "title": "Chef de Rang für gehobene Gastronomie und Weinspezialitäten (m/w/d)",
+    "submitterId": "1",
+    "title": "Senior Softwareentwickler mit Schwerpunkt Cloud-Technologien (m/w/d)",
     "workingHours": "full_time",
     "screening_questions1": {
       "question_dealbreaker1": [
@@ -116,11 +116,11 @@
       "question_preferred_answer3": [
         "yes"
       ],
-      "question_sorting_position1": [
+      "question_sorting_position3": [
         "3"
       ],
       "question_title3": [
-        "Hast du bereits Erfahrung mit automatischen Förderanlagen / Gurtförderern  gesammelt? (Kein Muss)"
+        "Hast du bereits Erfahrung mit automatischen Förderanlagen / Gurtförderern gesammelt? (Kein Muss)"
       ],
       "question_type3": [
         "yes_no"
