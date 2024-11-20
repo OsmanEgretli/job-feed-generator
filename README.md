@@ -37,7 +37,7 @@ Ensure the following are installed:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/job-feed-generator.git
+git clone https://github.com/osmanegretli/job-feed-generator.git
 cd job-feed-generator
 ```
 
@@ -165,6 +165,3 @@ sudo chown -R $USER:$USER ~/.config
 - Ensure icon files exist in the `assets/` directory.
 
 ---
-
-## License
-[Add your license information here]
