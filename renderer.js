@@ -8,11 +8,23 @@ const locationsPath = path.join(__dirname, 'data/locations/locations.json');
 const locationsData = JSON.parse(fs.readFileSync(locationsPath, 'utf8'));
 
 let GITHUB_TOKEN = null;
+let GITHUB_USERNAME = null;
 
-// Request the GitHub token from the main process
-ipcRenderer.invoke('get-github-token').then(token => {
+// Modified token initialization to also fetch username
+ipcRenderer.invoke('get-github-token').then(async token => {
     GITHUB_TOKEN = token;
-    console.log('GitHub Token from renderer process:', GITHUB_TOKEN); // Log the token for debugging
+    try {
+        // Fetch user information using the token
+        const response = await axios.get('https://api.github.com/user', {
+            headers: {
+                Authorization: `token ${GITHUB_TOKEN}`
+            }
+        });
+        GITHUB_USERNAME = response.data.login;
+        console.log('GitHub Username:', GITHUB_USERNAME);
+    } catch (err) {
+        console.error('Failed to get GitHub username:', err);
+    }
 }).catch(err => {
     console.error('Failed to get GitHub token:', err);
 });
@@ -20,10 +32,10 @@ ipcRenderer.invoke('get-github-token').then(token => {
 document.getElementById('feed-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    if (!GITHUB_TOKEN) {
-        console.error('GitHub token not found');
+    if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
+        console.error('GitHub token or username not found');
         document.getElementById('result').innerHTML = `
-            <p>Error: GitHub token not found</p>
+            <p>Error: GitHub authentication information not found</p>
         `;
         return;
     }
@@ -57,7 +69,7 @@ document.getElementById('feed-form').addEventListener('submit', async (event) =>
         );
 
         const gistId = response.data.id;
-        const rawUrl = `https://gist.githubusercontent.com/OsmanEgretli/${gistId}/raw/jobFeed.json`;
+        const rawUrl = `https://gist.githubusercontent.com/${GITHUB_USERNAME}/${gistId}/raw/jobFeed.json`;
         
         document.getElementById('result').innerHTML = `
             <div class="link-container">
