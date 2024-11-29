@@ -115,23 +115,45 @@ document.getElementById('feed-form').addEventListener('submit', async (event) =>
         const gistId = response.data.id;
         const rawUrl = `https://gist.githubusercontent.com/${GITHUB_USERNAME}/${gistId}/raw/jobFeed.json`;
         
-        document.getElementById('result').innerHTML = `
-            <div class="link-container">
-                <p>Link created at:</p>
-                <a href="${rawUrl}" target="_blank">${rawUrl}</a>
-                <button class="copy-button" onclick="copyToClipboard('${rawUrl}')">Copy Link</button>
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <div>
+                Local file: <a href="file://${filePath}" target="_blank">${filePath}</a>
+                <br>
+                Gist URL: <a href="${rawUrl}" target="_blank">${rawUrl}</a>
+                <button class="copy-btn" onclick="copyToClipboard('${rawUrl}')">Copy Link</button>
             </div>
         `;
+
+        // Scroll to result
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
     } catch (error) {
         console.error('Error creating Gist:', error);
-        document.getElementById('result').innerHTML = `
-            <p>Error creating Gist. Please check the console for details.</p>
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <p style="color: #dc3545;">Error creating Gist. Please check the console for details.</p>
         `;
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 });
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
-        .then(() => alert('Link copied to clipboard'))
+        .then(() => {
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.textContent = 'Copy Link';
+            }, 2000);
+        })
         .catch(err => console.error('Failed to copy:', err));
+}
+
+function minimizeWindow() {
+    require('electron').remote.getCurrentWindow().minimize();
+}
+
+function closeWindow() {
+    require('electron').remote.getCurrentWindow().close();
 }

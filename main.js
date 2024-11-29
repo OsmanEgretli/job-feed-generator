@@ -6,17 +6,21 @@ require('dotenv').config();
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 900,
-        height: 800,
-        minWidth: 600,
-        minHeight: 700,
+        width: 500,
+        height: 700,
+        minWidth: 450,
+        minHeight: 600,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
         },
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#1a1a1a',
         show: false,
-        titleBarStyle: 'hiddenInset',
+        titleBarStyle: 'hidden',
+        titleBarOverlay: {
+            color: '#1a1a1a',
+            symbolColor: '#ffffff'
+        }
     });
 
     win.once('ready-to-show', () => {

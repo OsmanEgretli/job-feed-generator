@@ -1,126 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>Job Feed Generator</title>
     <style>
+        :root[data-theme="light"] {
+            --bg-color: #f4f4f4;
+            --container-bg: #ffffff;
+            --text-color: #333;
+            --input-bg: #fff;
+            --input-border: #ddd;
+            --input-text: #333;
+            --screening-bg: #f8f9fa;
+            --screening-border: #e9ecef;
+            --hover-bg: #f0f0f0;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --container-bg: #2d2d2d;
+            --text-color: #fff;
+            --input-bg: #3d3d3d;
+            --input-border: #4d4d4d;
+            --input-text: #fff;
+            --screening-bg: #333;
+            --screening-border: #404040;
+            --hover-bg: #404040;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 16px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             min-height: 100vh;
+            transition: all 0.3s ease;
         }
 
         .container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 800px;
+            background: var(--container-bg);
+            padding: 24px;
+            border-radius: 8px;
+            width: 400px;
             margin: 20px auto;
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin-top: 40px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 24px;
+            padding: 8px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--container-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 2em;
+            color: var(--text-color);
+            margin-bottom: 24px;
+            font-size: 1.5em;
+            font-weight: 500;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #34495e;
-            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-color);
+            font-size: 0.9em;
         }
 
-        input {
+        input[type="text"],
+        input[type="number"] {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            transition: border-color 0.3s ease;
+            padding: 8px 12px;
+            font-size: 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            color: var(--input-text);
+            transition: all 0.2s ease;
             box-sizing: border-box;
         }
 
         input:focus {
             border-color: #007bff;
             outline: none;
+            background: var(--input-bg);
         }
 
         .screening-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border: 1px solid #e9ecef;
+            background: var(--screening-bg);
+            padding: 16px;
+            border-radius: 6px;
+            margin: 16px 0;
+            border: 1px solid var(--screening-border);
         }
 
         .screening-section h3 {
-            color: #2c3e50;
+            color: var(--text-color);
             margin-top: 0;
+            font-size: 1em;
+            margin-bottom: 12px;
         }
 
         .question-toggle {
-            background: white;
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin: 8px 0;
-            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            transition: background 0.2s;
+            border-radius: 4px;
         }
 
         .question-toggle:hover {
-            transform: translateX(5px);
+            background: var(--hover-bg);
+        }
+
+        .question-toggle input[type="checkbox"] {
+            margin-right: 8px;
         }
 
         button {
             width: 100%;
-            padding: 14px;
-            font-size: 16px;
+            padding: 10px;
+            font-size: 14px;
             background: #007bff;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 20px;
+            transition: background-color 0.2s;
+            margin-top: 16px;
         }
 
         button:hover {
             background: #0056b3;
         }
 
-        .link-container {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e9ecef;
-            border-radius: 8px;
-        }
-
-        .link-container a {
-            display: block;
-            padding: 10px;
-            background: white;
-            border-radius: 6px;
-            margin: 10px 0;
-            word-break: break-all;
-        }
-
-        .copy-button {
-            background: #28a745;
-            margin-top: 10px;
-        }
-
-        .copy-button:hover {
-            background: #218838;
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            accent-color: #007bff;
         }
 
         /* Animation for screening options */
@@ -137,16 +173,16 @@
         /* Loading indicator */
         .loading {
             text-align: center;
-            padding: 20px;
+            padding: 16px;
         }
 
         .loading::after {
             content: '';
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #007bff;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--text-color);
+            border-top: 2px solid #007bff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -157,55 +193,90 @@
         }
 
         /* Responsive adjustments */
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
             .container {
-                padding: 20px;
-                width: 95%;
+                width: 100%;
+                padding: 16px;
             }
+        }
 
-            h1 {
-                font-size: 1.5em;
-            }
+        /* Result section styling */
+        #result {
+            margin-top: 16px;
+            word-break: break-word;
+            background: var(--screening-bg);
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        #result a {
+            color: #007bff;
+            text-decoration: none;
+            display: block;
+            margin-top: 8px;
+        }
+
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #218838;
         }
     </style>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.github.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
     <div class="container">
         <h1>Job Feed Generator</h1>
         <form id="feed-form">
-            <label for="numJobs">Number of Jobs:</label>
-            <input type="number" id="numJobs" name="numJobs" required>
-            <label for="submitterId">Submitter ID:</label>
-            <input type="text" id="submitterId" name="submitterId" required>
-            <label for="companyUid">Company UID:</label>
-            <input type="text" id="companyUid" name="companyUid" required>
+            <div class="form-group">
+                <label for="numJobs">Number of Jobs</label>
+                <input type="number" id="numJobs" name="numJobs" required>
+            </div>
+            <div class="form-group">
+                <label for="submitterId">Submitter ID</label>
+                <input type="text" id="submitterId" name="submitterId" required>
+            </div>
+            <div class="form-group">
+                <label for="companyUid">Company UID</label>
+                <input type="text" id="companyUid" name="companyUid" required>
+            </div>
+            
             <div class="screening-section">
-                <h3>Screening Questions</h3>
                 <div class="screening-toggle">
                     <input type="checkbox" id="enableScreening" name="enableScreening">
-                    <label for="enableScreening">Enable Screening Questions</label>
+                    <label for="enableScreening">Screening Questions</label>
                 </div>
                 <div id="screeningOptions" style="display: none;">
                     <div class="question-toggle">
                         <input type="checkbox" id="technicalEducation" name="technicalEducation">
-                        <label for="technicalEducation">Technical Education Question</label>
+                        <label for="technicalEducation">Technical Education</label>
                     </div>
                     <div class="question-toggle">
                         <input type="checkbox" id="experienceQuestion" name="experienceQuestion">
-                        <label for="experienceQuestion">Experience Question</label>
+                        <label for="experienceQuestion">Experience</label>
                     </div>
                     <div class="question-toggle">
                         <input type="checkbox" id="conveyorExperience" name="conveyorExperience">
-                        <label for="conveyorExperience">Conveyor Experience Question</label>
+                        <label for="conveyorExperience">Conveyor Experience</label>
                     </div>
                     <div class="question-toggle">
                         <input type="checkbox" id="qualifications" name="qualifications">
-                        <label for="qualifications">Qualifications Question</label>
+                        <label for="qualifications">Qualifications</label>
                     </div>
                     <div class="question-toggle">
                         <input type="checkbox" id="workPermit" name="workPermit">
-                        <label for="workPermit">Work Permit Question</label>
+                        <label for="workPermit">Work Permit</label>
                     </div>
                 </div>
             </div>
@@ -213,6 +284,21 @@
         </form>
         <div id="result"></div>
     </div>
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Set initial theme from localStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+    </script>
     <script src="renderer.js"></script>
 </body>
 </html>
