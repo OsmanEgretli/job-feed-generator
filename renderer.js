@@ -29,6 +29,40 @@ ipcRenderer.invoke('get-github-token').then(async token => {
     console.error('Failed to get GitHub token:', err);
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const enableScreening = document.getElementById('enableScreening');
+    const screeningOptions = document.getElementById('screeningOptions');
+    
+    if (enableScreening && screeningOptions) {
+        enableScreening.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                screeningOptions.style.display = 'block';
+                // Use setTimeout to trigger animation after display is set
+                setTimeout(() => {
+                    screeningOptions.classList.add('show');
+                }, 10);
+            } else {
+                screeningOptions.classList.remove('show');
+                // Wait for animation to complete before hiding
+                setTimeout(() => {
+                    screeningOptions.style.display = 'none';
+                }, 300);
+                
+                // Uncheck all sub-options
+                const checkboxes = screeningOptions.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => checkbox.checked = false);
+            }
+        });
+    }
+
+    // Add loading indicator during generation
+    document.getElementById('feed-form').addEventListener('submit', async (event) => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '<div class="loading">Generating feed...</div>';
+        // ... rest of your submit handler
+    });
+});
+
 document.getElementById('feed-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -44,7 +78,17 @@ document.getElementById('feed-form').addEventListener('submit', async (event) =>
     const submitterId = document.getElementById('submitterId').value;
     const companyUid = document.getElementById('companyUid').value;
 
-    const result = await ipcRenderer.invoke('generate-feed', numJobs, submitterId, companyUid);
+    // Get screening configuration
+    const screeningConfig = {
+        enableScreening: document.getElementById('enableScreening')?.checked || false,
+        technicalEducation: document.getElementById('technicalEducation')?.checked || false,
+        experienceQuestion: document.getElementById('experienceQuestion')?.checked || false,
+        conveyorExperience: document.getElementById('conveyorExperience')?.checked || false,
+        qualifications: document.getElementById('qualifications')?.checked || false,
+        workPermit: document.getElementById('workPermit')?.checked || false
+    };
+
+    const result = await ipcRenderer.invoke('generate-feed', numJobs, submitterId, companyUid, screeningConfig);
     const filePath = path.join(__dirname, 'jobFeed.json');
 
     try {

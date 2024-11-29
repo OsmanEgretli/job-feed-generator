@@ -6,15 +6,28 @@ require('dotenv').config();
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 900,
+        height: 800,
+        minWidth: 600,
+        minHeight: 700,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
-        }
+        },
+        backgroundColor: '#f4f4f4',
+        show: false,
+        titleBarStyle: 'hiddenInset',
+    });
+
+    win.once('ready-to-show', () => {
+        win.show();
     });
 
     win.loadFile('index.html');
+
+    if (process.env.NODE_ENV === 'development') {
+        win.webContents.openDevTools();
+    }
 }
 
 app.whenReady().then(() => {
@@ -33,10 +46,10 @@ app.on('window-all-closed', () => {
     }
 });
 
-ipcMain.handle('generate-feed', (event, numJobs, submitterId, companyUid) => {
+ipcMain.handle('generate-feed', (event, numJobs, submitterId, companyUid, screeningConfig) => {
     const jobs = [];
     for (let i = 0; i < numJobs; i++) {
-        const job = generateJobEntry(i + 1, submitterId, companyUid);
+        const job = generateJobEntry(i + 1, submitterId, companyUid, screeningConfig);
         jobs.push(job);
     }
     const filePath = path.join(__dirname, 'jobFeed.json');

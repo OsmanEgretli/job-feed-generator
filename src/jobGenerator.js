@@ -9,10 +9,12 @@ const locationsData = JSON.parse(fs.readFileSync(locationsPath, 'utf8'));
 const jobTitlesPath = path.join(__dirname, '../data/job_titles/job_titles.json');
 const jobTitlesData = JSON.parse(fs.readFileSync(jobTitlesPath, 'utf8'));
 
-function generateJobEntry(id, submitterId, companyUid) {
+function generateJobEntry(id, submitterId, companyUid, screeningConfig = {}) {
     const location = getRandomLocation();
     const title = getRandomJobTitle();
-    return {
+    
+    // Base job entry without screening questions
+    const jobEntry = {
         allowEasyApply: "FALSE",
         application: {
             applyEmail: [],
@@ -57,65 +59,85 @@ function generateJobEntry(id, submitterId, companyUid) {
         shortTitle: [],
         submitterId: submitterId,
         title: title,
-        workingHours: "full_time",
-        screening_questions1: {
-            question_dealbreaker1: ["TRUE"],
-            question_mandatory1: ["TRUE"],
-            question_possible_answers1: [
-                "Elektroniker / Elektriker (m/w/d) (alle Fachrichtungen), Mechatroniker (m/w/d) (alle Fachrichtungen), Industriemechaniker (m/w/d) (alle Fachrichtungen), Ich habe eine andere abgeschlossene technische Ausbildung. Zum Beispiel einen Techniker- oder Meisterabschluss oder einen technischen Studienabschluss, Ich verfüge über keine technische Ausbildung"
-            ],
-            question_preferred_answer1: [
-                "Elektroniker / Elektriker (m/w/d) (alle Fachrichtungen), Mechatroniker (m/w/d) (alle Fachrichtungen), Industriemechaniker (m/w/d) (alle Fachrichtungen), Ich habe eine andere abgeschlossene technische Ausbildung. Zum Beispiel einen Techniker- oder Meisterabschluss oder einen technischen Studienabschluss"
-            ],
-            question_sorting_position1: ["1"],
-            question_title1: ["Über welche abgeschlossene Ausbildung verfügst Du?"],
-            question_type1: ["multiple_choice"]
-        },
-        screening_questions2: {
-            question_dealbreaker2: ["FALSE"],
-            question_mandatory2: ["TRUE"],
-            question_possible_answers2: [
-                "Ich habe noch keine Erfahrung / ich habe gerade meine Ausbildung abgeschlossen, 0-2 Jahre, 3 bis 5 Jahre, Mehr als 5 Jahre"
-            ],
-            question_preferred_answer2: [
-                "0-2 Jahre, 3 bis 5 Jahre, Mehr als 5 Jahre"
-            ],
-            question_sorting_position2: ["2"],
-            question_title2: ["Wie viel Berufserfahrung konntest Du bereits in technischen Jobs sammeln? Ich habe noch keine Erfahrung / ich habe gerade meine Ausbildung abgeschlossen."],
-            question_type2: ["multiple_choice"]
-        },
-        screening_questions3: {
-            question_dealbreaker3: ["FALSE"],
-            question_mandatory3: ["TRUE"],
-            question_possible_answers3: [],
-            question_preferred_answer3: ["yes"],
-            question_sorting_position3: ["3"],
-            question_title3: ["Hast du bereits Erfahrung mit automatischen Förderanlagen / Gurtförderern gesammelt? (Kein Muss)"],
-            question_type3: ["yes_no"]
-        },
-        screening_questions4: {
-            question_dealbreaker4: ["FALSE"],
-            question_mandatory4: ["TRUE"],
-            question_possible_answers4: [
-                "Ich habe eine Schweißerprüfung, Ich haben einen Staplerschein, Ich habe beide Qualifikationen (Staplerschein & Schweißerprüfung), Ich verfüge nicht über diese Qualifikationen"
-            ],
-            question_preferred_answer4: [
-                "Ich habe eine Schweißerprüfung, Ich haben einen Staplerschein, Ich habe beide Qualifikationen (Staplerschein & Schweißerprüfung)"
-            ],
-            question_sorting_position4: ["4"],
-            question_title4: ["Verfügst du über eine dieser Qualifikationen (Kein Muss)?"],
-            question_type4: ["multiple_choice"]
-        },
-        screening_questions5: {
-            question_dealbreaker5: ["TRUE"],
-            question_mandatory5: ["TRUE"],
-            question_possible_answers5: [],
-            question_preferred_answer5: ["yes"],
-            question_sorting_position5: ["5"],
-            question_title5: ["Darfst Du innerhalb Deutschlands arbeiten?"],
-            question_type5: ["yes_no"]
-        }
+        workingHours: "full_time"
     };
+
+    // Add screening questions based on configuration
+    if (screeningConfig.enableScreening) {
+        if (screeningConfig.technicalEducation) {
+            jobEntry.screening_questions1 = {
+                question_dealbreaker1: ["TRUE"],
+                question_mandatory1: ["TRUE"],
+                question_possible_answers1: [
+                    "Elektroniker / Elektriker (m/w/d) (alle Fachrichtungen), Mechatroniker (m/w/d) (alle Fachrichtungen), Industriemechaniker (m/w/d) (alle Fachrichtungen), Ich habe eine andere abgeschlossene technische Ausbildung. Zum Beispiel einen Techniker- oder Meisterabschluss oder einen technischen Studienabschluss, Ich verfüge über keine technische Ausbildung"
+                ],
+                question_preferred_answer1: [
+                    "Elektroniker / Elektriker (m/w/d) (alle Fachrichtungen), Mechatroniker (m/w/d) (alle Fachrichtungen), Industriemechaniker (m/w/d) (alle Fachrichtungen), Ich habe eine andere abgeschlossene technische Ausbildung. Zum Beispiel einen Techniker- oder Meisterabschluss oder einen technischen Studienabschluss"
+                ],
+                question_sorting_position1: ["1"],
+                question_title1: ["Über welche abgeschlossene Ausbildung verfügst Du?"],
+                question_type1: ["multiple_choice"]
+            };
+        }
+
+        if (screeningConfig.experienceQuestion) {
+            jobEntry.screening_questions2 = {
+                question_dealbreaker2: ["FALSE"],
+                question_mandatory2: ["TRUE"],
+                question_possible_answers2: [
+                    "Ich habe noch keine Erfahrung / ich habe gerade meine Ausbildung abgeschlossen, 0-2 Jahre, 3 bis 5 Jahre, Mehr als 5 Jahre"
+                ],
+                question_preferred_answer2: [
+                    "0-2 Jahre, 3 bis 5 Jahre, Mehr als 5 Jahre"
+                ],
+                question_sorting_position2: ["2"],
+                question_title2: ["Wie viel Berufserfahrung konntest Du bereits in technischen Jobs sammeln? Ich habe noch keine Erfahrung / ich habe gerade meine Ausbildung abgeschlossen."],
+                question_type2: ["multiple_choice"]
+            };
+        }
+
+        if (screeningConfig.conveyorExperience) {
+            jobEntry.screening_questions3 = {
+                question_dealbreaker3: ["FALSE"],
+                question_mandatory3: ["TRUE"],
+                question_possible_answers3: [],
+                question_preferred_answer3: ["yes"],
+                question_sorting_position3: ["3"],
+                question_title3: ["Hast du bereits Erfahrung mit automatischen Förderanlagen / Gurtförderern gesammelt? (Kein Muss)"],
+                question_type3: ["yes_no"]
+            };
+        }
+
+        if (screeningConfig.qualifications) {
+            jobEntry.screening_questions4 = {
+                question_dealbreaker4: ["FALSE"],
+                question_mandatory4: ["TRUE"],
+                question_possible_answers4: [
+                    "Ich habe eine Schweißerprüfung, Ich haben einen Staplerschein, Ich habe beide Qualifikationen (Staplerschein & Schweißerprüfung), Ich verfüge nicht über diese Qualifikationen"
+                ],
+                question_preferred_answer4: [
+                    "Ich habe eine Schweißerprüfung, Ich haben einen Staplerschein, Ich habe beide Qualifikationen (Staplerschein & Schweißerprüfung)"
+                ],
+                question_sorting_position4: ["4"],
+                question_title4: ["Verfügst du über eine dieser Qualifikationen (Kein Muss)?"],
+                question_type4: ["multiple_choice"]
+            };
+        }
+
+        if (screeningConfig.workPermit) {
+            jobEntry.screening_questions5 = {
+                question_dealbreaker5: ["TRUE"],
+                question_mandatory5: ["TRUE"],
+                question_possible_answers5: [],
+                question_preferred_answer5: ["yes"],
+                question_sorting_position5: ["5"],
+                question_title5: ["Darfst Du innerhalb Deutschlands arbeiten?"],
+                question_type5: ["yes_no"]
+            };
+        }
+    }
+
+    return jobEntry;
 }
 
 function getRandomLocation() {
