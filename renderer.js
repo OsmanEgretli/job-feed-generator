@@ -115,7 +115,8 @@ document.getElementById('feed-form').addEventListener('submit', async (event) =>
         const gistId = response.data.id;
         const rawUrl = `https://gist.githubusercontent.com/${GITHUB_USERNAME}/${gistId}/raw/jobFeed.json`;
         
-        document.getElementById('result').innerHTML = `
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
             <div>
                 Local file: <a href="file://${filePath}" target="_blank">${filePath}</a>
                 <br>
@@ -123,11 +124,17 @@ document.getElementById('feed-form').addEventListener('submit', async (event) =>
                 <button class="copy-btn" onclick="copyToClipboard('${rawUrl}')">Copy Link</button>
             </div>
         `;
+
+        // Scroll to result
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
     } catch (error) {
         console.error('Error creating Gist:', error);
-        document.getElementById('result').innerHTML = `
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
             <p style="color: #dc3545;">Error creating Gist. Please check the console for details.</p>
         `;
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 });
 
@@ -141,4 +148,12 @@ function copyToClipboard(text) {
             }, 2000);
         })
         .catch(err => console.error('Failed to copy:', err));
+}
+
+function minimizeWindow() {
+    require('electron').remote.getCurrentWindow().minimize();
+}
+
+function closeWindow() {
+    require('electron').remote.getCurrentWindow().close();
 }
